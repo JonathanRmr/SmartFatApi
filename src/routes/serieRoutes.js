@@ -1,9 +1,10 @@
 const express = require('express');
-const router = express.Router();
 const serieController = require('../controllers/serieController');
 const { authenticateToken } = require('../middleware/auth');
 
-// Todas las rutas requieren autenticación
+const router = express.Router();
+
+// ⭐ ESTO ES IMPORTANTE: Aplicar autenticación a TODOS los requests
 router.use(authenticateToken);
 
 // POST /api/series - Agregar serie a una rutina
