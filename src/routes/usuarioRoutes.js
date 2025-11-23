@@ -12,6 +12,9 @@ router.get('/perfil', usuarioController.obtenerPerfil);
 // PUT /api/usuarios/perfil - Actualizar perfil del usuario
 router.put('/perfil', usuarioController.actualizarPerfil);
 
+// PUT /api/usuarios/cambiar-contrasena - Cambiar contraseña
+router.put('/cambiar-contrasena', usuarioController.cambiarContrasena);
+
 // DELETE /api/usuarios/cuenta - Eliminar cuenta del usuario
 router.delete('/cuenta', usuarioController.eliminarCuenta);
 

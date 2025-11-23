@@ -62,14 +62,18 @@ class Historial {
 
     static async obtenerHistorialCompleto(id_usuario, limite = 50) {
         try {
-            const [historial] = await pool.execute(
+            // Asegurarse de que limite sea un número entero
+            const limiteInt = parseInt(limite, 10);
+            
+            // Usar query() en lugar de execute() para LIMIT con valor variable
+            const [historial] = await pool.query(
                 `SELECT h.*, e.nombre as ejercicio_nombre, e.grupo_muscular
                  FROM historial_pesos h
                  JOIN ejercicios e ON h.id_ejercicio = e.id_ejercicio
                  WHERE h.id_usuario = ?
                  ORDER BY h.fecha_registro DESC
                  LIMIT ?`,
-                [id_usuario, limite]
+                [id_usuario, limiteInt]
             );
             return historial;
         } catch (error) {

@@ -49,6 +49,19 @@ class Usuario {
         }
     }
 
+    // Nuevo método para actualizar contraseña
+    static async actualizarContraseña(id_usuario, contraseña_hash) {
+        try {
+            const [result] = await pool.execute(
+                'UPDATE usuarios SET contraseña = ? WHERE id_usuario = ?',
+                [contraseña_hash, id_usuario]
+            );
+            return result;
+        } catch (error) {
+            throw error;
+        }
+    }
+
     static async eliminar(id_usuario) {
         try {
             const [result] = await pool.execute(

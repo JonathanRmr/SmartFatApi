@@ -6,6 +6,24 @@ const { JWT_SECRET } = require('../middleware/auth');
 const authController = {
     async register(req, res) {
         try {
+            // 🔍 DEBUG: Ver qué está llegando
+            console.log('=== DEBUG REGISTER ===');
+            console.log('Headers:', req.headers);
+            console.log('Body:', req.body);
+            console.log('Body type:', typeof req.body);
+            console.log('=====================');
+
+            // Verificar si req.body existe
+            if (!req.body || Object.keys(req.body).length === 0) {
+                return res.status(400).json({ 
+                    error: 'No se recibieron datos en el body',
+                    debug: {
+                        body: req.body,
+                        headers: req.headers['content-type']
+                    }
+                });
+            }
+
             const { nombre, correo, contraseña, edad, peso_actual, altura } = req.body;
 
             // Validaciones
@@ -55,13 +73,25 @@ const authController = {
             }
             console.error('Error en register:', error);
             res.status(500).json({ 
-                error: 'Error al registrar usuario' 
+                error: 'Error al registrar usuario',
+                message: error.message
             });
         }
     },
 
     async login(req, res) {
         try {
+            // 🔍 DEBUG: Ver qué está llegando
+            console.log('=== DEBUG LOGIN ===');
+            console.log('Body:', req.body);
+            console.log('===================');
+
+            if (!req.body || Object.keys(req.body).length === 0) {
+                return res.status(400).json({ 
+                    error: 'No se recibieron datos en el body' 
+                });
+            }
+
             const { correo, contraseña } = req.body;
 
             // Validaciones
@@ -114,7 +144,8 @@ const authController = {
         } catch (error) {
             console.error('Error en login:', error);
             res.status(500).json({ 
-                error: 'Error en el login' 
+                error: 'Error en el login',
+                message: error.message
             });
         }
     }
